@@ -1,0 +1,14 @@
+.popup-fade {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  flex-direction: column;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1; 
+  opacity: 1;
+  
+  transition: opacity 0.2s ease-out;
+}
