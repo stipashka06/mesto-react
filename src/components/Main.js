@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
 import api from '../utils/Api';
 import Card from './Card';
-import PopupWithForm from './PopupWithForm';
-import ImagePopup from './ImagePopup';
 
-function Main(props) {
-  // const onEditAvatar = () => (props.handleEditAvatarClick);
+export default function Main(props) {
   const [userAvatar, setUserAvatar] = React.useState();
   const [userName, setUserName] = React.useState();
   const [userDescription, setUserDescription] = React.useState();
   const [isCards, setCards] = React.useState([]);
-
-  const [isDeleteCardPopupOpen, setDeleteCardPopupOpen] = React.useState(false);
-  const [isOpenImage, setOpenImage] = React.useState(false);
 
   React.useEffect(() => {
     api.getUserData()
@@ -26,16 +20,15 @@ function Main(props) {
           `Ошибка запроса загрузки данный пользователя ${err}`
         );
       });
-  })
+  });
 
   React.useEffect(() => {
     handleRequest()
-  }, [])
+  }, []);
 
   const handleRequest = () => {
     api.getCards()
       .then((data) => {
-        // console.log(data)
         const cards = data.map((item) => {
           return {
             id: item._id,
@@ -52,13 +45,8 @@ function Main(props) {
           `Ошибка запроса загрузки данный карточек ${err}`
         );
       })
-  }
+  };
 
-  const handleOpenImage = (src, name) => {
-    setOpenImage(true)
-    return [{ src, name }]
-    // return console.log([{ src, name }])
-  }
   return (
     <main className="content">
       <section className="profile">
@@ -78,32 +66,16 @@ function Main(props) {
       <section className="elements" aria-label="Достопримечательности России">
         {isCards.map((item, i) => (
           <Card
+            item={item}
             key={item.id}
             src={item.src}
             name={item.name}
             likes={item.likes}
-            onDeleteCard={() => setDeleteCardPopupOpen(true)}
-            onOpenImage={handleOpenImage}
+            onDeleteCard={props.onDeleteCard}
+            onOpenImage={props.onOpenImage}
           />
         ))}
       </section>
-      <PopupWithForm
-        isOpen={isDeleteCardPopupOpen}
-        title={'Вы уверены?'}
-        name={'namedelete'}
-        textButton={'Да'}
-        onClose={() => setDeleteCardPopupOpen(false)}
-      >
-        <span className="popup__input-error popup__input-error_cardurl"></span>
-      </PopupWithForm >
-
-      <ImagePopup
-        src={handleOpenImage}
-        name={handleOpenImage}
-        isOpen={isOpenImage}
-        onClose={() => setOpenImage(false)} />
     </main>
   );
-}
-
-export default Main;
+};

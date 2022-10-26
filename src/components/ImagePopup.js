@@ -1,18 +1,15 @@
-export default function ImagePopup(props) {
-  function addStyle() {
-    return (props.isOpen) ? { display: 'flex' } : { display: 'none' };
-  }
+export default function ImagePopup({ card, onClose }) {
+  const addStyle = () => {
+    return card ? { display: 'flex' } : { display: 'none' };
+  };
 
   return (
-    // console.log(props)
-    <div className="popup-fade popup-fade_opacity_strong popup-fade_type_img"
-      style={addStyle()}
-    >
+    <div className="popup-fade popup-fade_opacity_strong popup-fade_type_img" style={addStyle()}>
       <figure className="popup-figure">
-        <img className="popup-figure__image" src={props.src} alt={props.name} />
-        <p className="popup-figure__title">{props.name}</p>
-        <button className="close-button cursor" type="button" onClick={props.onClose}></button>
+        <img className="popup-figure__image" src={card?.src} alt={card?.name} />
+        <p className="popup-figure__title">{card?.name}</p>
+        <button className="close-button cursor" type="button" onClick={onClose}></button>
       </figure>
     </div>
   );
-}
+};
