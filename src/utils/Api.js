@@ -4,7 +4,7 @@ class Api {
     this._headers = config.headers;
   };
 
-  #respanceInJson(res) {
+  #getResponseInJson(res) {
     if (res.ok) {
       return res.json()
     };
@@ -12,14 +12,14 @@ class Api {
   };
 
   getAllInfo() {
-    return Promise.all([this.getUserData(), this.getCards()])
+    return Promise.all([this._getUserData(), this._getCards()])
   };
 
-  getUserData() {
+  _getUserData() {
     return fetch(`${this._url}/users/me`, {
       headers: this._headers
     })
-      .then(this.#respanceInJson)
+      .then(this.#getResponseInJson)
   };
 
   gatUserData(data) {
@@ -31,7 +31,7 @@ class Api {
         about: data.userinfo
       })
     })
-      .then(this.#respanceInJson)
+      .then(this.#getResponseInJson)
   };
 
   getAvatar(data) {
@@ -42,14 +42,14 @@ class Api {
         avatar: data.avatarurl
       })
     })
-      .then(this.#respanceInJson)
+      .then(this.#getResponseInJson)
   };
 
-  getCards() {
+  _getCards() {
     return fetch(`${this._url}/cards`, {
       headers: this._headers
     })
-      .then(this.#respanceInJson)
+      .then(this.#getResponseInJson)
   };
 
   getNewCard(data) {
@@ -61,7 +61,7 @@ class Api {
         link: data.cardurl
       })
     })
-      .then(this.#respanceInJson)
+      .then(this.#getResponseInJson)
   };
 
   deleteCard(idCard) {
@@ -69,7 +69,7 @@ class Api {
       headers: this._headers,
       method: 'DELETE'
     })
-      .then(this.#respanceInJson)
+      .then(this.#getResponseInJson)
   };
 
   stagingLike(idCard, isLiked) {
@@ -77,7 +77,7 @@ class Api {
       method: isLiked ? 'DELETE' : 'PUT',
       headers: this._headers
     })
-      .then(this.#respanceInJson)
+      .then(this.#getResponseInJson)
   };
 };
 

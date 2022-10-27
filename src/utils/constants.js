@@ -1,17 +1,3 @@
-export const validateSelectors = {
-  popup: '.popup-fade',
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  spanErrorSelector: '.popup__input-error',
-  submitButtonSelector: '.popup__submit-button',
-  invalidSubmitButtonElement: 'popup__submit-button_valid_off',
-  errorElement: 'popup__input-error',
-  errorBorderElement: 'error',
-
-  formSelectorInfo: '.popup__form_info',
-  formSelectorCard: '.popup__form_Card',
-};
-
 export const selectors = {
   body: '.page',
   selectorBodyNoScroll: 'page_noscroll',

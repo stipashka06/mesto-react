@@ -2,6 +2,8 @@
 
 @import url(./vendor/font/font.css);
 
+@import url(./blocks/root/root.css);
+
 @import url(./blocks/page/page.css);
 
 @import url(./blocks/page/_noscroll/page_noscroll.css);
@@ -33,6 +35,10 @@
 @import url(./blocks/profile/__add-button/profile__add-button.css);
 
 @import url(./blocks/popup-fade/popup-fade.css);
+
+@import url(./blocks/popup-fade/__hidden/popup-fade__hidden.css);
+
+@import url(./blocks/popup-fade/__visible/popup-fade__visible.css);
 
 @import url(./blocks/popup-fade/_opened/popup-fade_opened.css);
 
