@@ -11,16 +11,21 @@ export default function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
   const [isDeleteCardPopupOpen, setDeleteCardPopupOpen] = React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState(null);
+
+  const handleEditAvatarClick = () => { setEditAvatarPopupOpen(true) };
+  const handleEditProfileClick = () => { setEditProfilePopupOpen(true) };
+  const handleAddPlaceClick = () => { setAddPlacePopupOpen(true) };
+  const handleDeleteCardClick = () => { setDeleteCardPopupOpen(true) };
 
   return (
     <div className="page">
       <Header />
       <Main
-        onEditAvatar={setEditAvatarPopupOpen}
-        onEditProfile={setEditProfilePopupOpen}
-        onAddPlace={setAddPlacePopupOpen}
-        onDeleteCard={setDeleteCardPopupOpen}
+        onEditAvatar={handleEditAvatarClick}
+        onEditProfile={handleEditProfileClick}
+        onAddPlace={handleAddPlaceClick}
+        onDeleteCard={handleDeleteCardClick}
         onOpenImage={setSelectedCard}
       />
       <Footer />
@@ -77,7 +82,7 @@ export default function App() {
         <span className="popup__input-error popup__input-error_cardurl"></span>
       </PopupWithForm>
 
-      <ImagePopup card={selectedCard} onClose={() => setSelectedCard(false)} />
+      <ImagePopup card={selectedCard} onClose={() => setSelectedCard(null)} />
     </div>
   );
 };
