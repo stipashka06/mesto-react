@@ -1,4 +1,4 @@
-import React from 'react';
+import { createContext } from 'react';
 
-const ContextUser = React.createContext();
+const ContextUser = createContext();
 export default ContextUser;

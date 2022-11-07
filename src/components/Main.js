@@ -1,44 +1,8 @@
-import React from 'react';
-import api from '../utils/Api';
-import Card from './Card';
+import { useContext } from 'react';
 import ContextUser from '../contexts/CurrentUserContext';
-import ContextCard from '../contexts/CurrentCard';
 
-export default function Main({ onEditAvatar, onEditProfile, onAddPlace, onDeleteCard, onOpenImage, setCurrentCard }) {
-  const user = React.useContext(ContextUser);
-  const cards = React.useContext(ContextCard);
-  const cardsElements = cards?.map((item, i) => (
-    <Card
-      cardData={item}
-      key={item?._id}
-      onDeleteCard={onDeleteCard}
-      onOpenImage={onOpenImage}
-      onCardLike={handleCardLike}
-    />
-  ));
-  function handleCardLike(card) {
-    const isLiked = card?.likes.some(i => i?._id === user?._id);
-    api.stagingLike(card?._id, isLiked)
-      .then((newCard) => {
-        const newCards = cards.map((c) => c?._id === newCard?._id ? newCard : c);
-        setCurrentCard(newCards);
-      });
-  };
-
-  function handleCardDelete(card) {
-    // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card?.likes.some(i => i?._id === user?._id);
-    // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.stagingLike(card?._id, isLiked)
-      .then((newCard) => {
-        console.log(newCard);
-        // Формируем новый массив на основе имеющегося, подставляя в него новую карточку
-        const newCards = cards.map((c) => c?._id === newCard?._id ? newCard : c);
-        console.log(newCards);
-        // Обновляем стейт
-        setCurrentCard(newCards);
-      });
-  };
+export default function Main({ onEditAvatar, onEditProfile, onAddPlace, cardsElements }) {
+  const user = useContext(ContextUser);
 
   return (
     <main className="content">

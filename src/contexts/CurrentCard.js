@@ -1,4 +1,4 @@
-import React from 'react';
+import { createContext } from 'react';
 
-const ContextCard = React.createContext();
+const ContextCard = createContext();
 export default ContextCard;
