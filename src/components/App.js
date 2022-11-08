@@ -14,8 +14,8 @@ import ContextCard from '../contexts/CurrentCard';
 import Card from './Card';
 
 export default function App() {
-  const [currentUser, setCurrentUser] = useState();
-  const [currentCard, setCurrentCard] = useState();
+  const [currentUser, setCurrentUser] = useState(null);
+  const [currentCard, setCurrentCard] = useState([]);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
@@ -55,7 +55,7 @@ export default function App() {
     api.getAvatar(avatarInfo)
       .then((avatarInfo) => {
         setCurrentUser(avatarInfo)
-        setEditAvatarPopupOpen(false)
+        closeAllPopups()
       })
       .catch((err) => {
         console.log(
@@ -68,7 +68,7 @@ export default function App() {
     api.gatUserData(userInfo)
       .then((userInfo) => {
         setCurrentUser(userInfo)
-        setEditProfilePopupOpen(false)
+        closeAllPopups()
       })
       .catch((err) => {
         console.log(
@@ -76,6 +76,30 @@ export default function App() {
         );
       });
   };
+
+  function closeAllPopups() {
+    setEditAvatarPopupOpen(false)
+    setEditProfilePopupOpen(false)
+    setAddPlacePopupOpen(false)
+    setDeleteCardPopupOpen(false)
+    setSelectedCard(null)
+  };
+
+  const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || isDeleteCardPopupOpen || selectedCard
+
+  useEffect(() => {
+    function closeByEscape(evt) {
+      if (evt.key === 'Escape') {
+        closeAllPopups();
+      }
+    }
+    if (isOpen) {
+      document.addEventListener('keydown', closeByEscape);
+      return () => {
+        document.removeEventListener('keydown', closeByEscape);
+      }
+    }
+  }, [isOpen])
 
   function handleAddPlaceSubmit(cardInfo) {
     api.getNewCard(cardInfo)
@@ -134,17 +158,17 @@ export default function App() {
           <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onUpdateAvatar={(avatarInfo) => { handleUpdateAvatar(avatarInfo) }}
-            onClose={() => setEditAvatarPopupOpen(false)}
+            onClose={closeAllPopups}
           />
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onUpdateUser={(userInfo) => { handleUpdateUser(userInfo) }}
-            onClose={() => setEditProfilePopupOpen(false)}
+            onClose={closeAllPopups}
           />
           <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onUpdateCard={(cardInfo) => { handleAddPlaceSubmit(cardInfo) }}
-            onClose={() => setAddPlacePopupOpen(false)}
+            onClose={closeAllPopups}
           />
 
           <PopupWithForm
@@ -152,12 +176,11 @@ export default function App() {
             title={'Вы уверены?'}
             name={'namedelete'}
             textButton={'Да'}
-            onClose={() => setDeleteCardPopupOpen(false)}
+            onClose={closeAllPopups}
           >
-            <span className="popup__input-error popup__input-error_cardurl"></span>
           </PopupWithForm>
 
-          <ImagePopup card={selectedCard} onClose={() => setSelectedCard(null)} />
+          <ImagePopup card={selectedCard} onClose={closeAllPopups} />
         </ContextCard.Provider>
       </ContextUser.Provider>
     </div>

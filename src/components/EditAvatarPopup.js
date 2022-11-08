@@ -18,7 +18,8 @@ export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
       name={'nameAvatar'}
       textButton={'Сохранить'}
       onClose={onClose}
-      onSubmit={(avatarInfo) => { handleSubmit(avatarInfo) }}
+      onSubmit={handleSubmit}
+    // onSubmit={(avatarInfo) => { handleSubmit(avatarInfo) }}
     >
       <span className="popup__input-error popup__input-error_username"></span>
       <input className="popup__input popup__input_type_description" id="avatarurl" name="avatarurl" type="url" defaultValue="" ref={avatarRef}

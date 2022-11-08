@@ -11,19 +11,22 @@ class Api {
     return Promise.reject(`Ошибка: ${res.status}`);
   };
 
+  _request(url, options) {
+    return fetch(url, options).then(this.#getResponseInJson)
+  };
+
   getAllInfo() {
     return Promise.all([this._getUserData(), this._getCards()])
   };
 
   _getUserData() {
-    return fetch(`${this._url}/users/me`, {
+    return this._request(`${this._url}/users/me`, {
       headers: this._headers
     })
-      .then(this.#getResponseInJson)
   };
 
   gatUserData(data) {
-    return fetch(`${this._url}/users/me`, {
+    return this._request(`${this._url}/users/me`, {
       headers: this._headers,
       method: 'PATCH',
       body: JSON.stringify({
@@ -31,29 +34,26 @@ class Api {
         about: data?.about
       })
     })
-      .then(this.#getResponseInJson)
   };
 
   getAvatar(data) {
-    return fetch(`${this._url}/users/me/avatar`, {
+    return this._request(`${this._url}/users/me/avatar`, {
       headers: this._headers,
       method: 'PATCH',
       body: JSON.stringify({
         avatar: data.avatar
       })
     })
-      .then(this.#getResponseInJson)
   };
 
   _getCards() {
-    return fetch(`${this._url}/cards`, {
+    return this._request(`${this._url}/cards`, {
       headers: this._headers
     })
-      .then(this.#getResponseInJson)
   };
 
   getNewCard(data) {
-    return fetch(`${this._url}/cards`, {
+    return this._request(`${this._url}/cards`, {
       headers: this._headers,
       method: 'POST',
       body: JSON.stringify({
@@ -61,23 +61,20 @@ class Api {
         link: data.about
       })
     })
-      .then(this.#getResponseInJson)
   };
 
   deleteCard(idCard) {
-    return fetch(`${this._url}/cards/${idCard}`, {
+    return this._request(`${this._url}/cards/${idCard}`, {
       headers: this._headers,
       method: 'DELETE'
     })
-      .then(this.#getResponseInJson)
   };
 
   stagingLike(idCard, isLiked) {
-    return fetch(`${this._url}/cards/${idCard}/likes`, {
+    return this._request(`${this._url}/cards/${idCard}/likes`, {
       method: isLiked ? 'DELETE' : 'PUT',
       headers: this._headers
     })
-      .then(this.#getResponseInJson)
   };
 };
 

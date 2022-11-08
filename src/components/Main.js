@@ -8,7 +8,7 @@ export default function Main({ onEditAvatar, onEditProfile, onAddPlace, cardsEle
     <main className="content">
       <section className="profile">
         <div className="profile__background-avatar">
-          <img className="profile__avatar" src={user?.avatar} alt="Жак-Ив Кусто" />
+          <img className="profile__avatar" src={user?.avatar} alt={user?.name} />
           <div className="profile__avatar-hover cursor" onClick={onEditAvatar}></div>
         </div>
         <div className="profile__info">
